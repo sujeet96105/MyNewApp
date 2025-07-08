@@ -69,9 +69,11 @@ const DEFAULT_CATEGORIES = [
 
 // Main App component
 export default function App() {
-// If AppStateProvider cannot be used as a JSX component, call it as a function
-  // Call AppStateProvider as a function and render its result directly
-  return AppStateProvider(<MainAppContent />);
+  return (
+    <AppStateProvider>
+      <MainAppContent />
+    </AppStateProvider>
+  );
 }
 
 // Move the rest of your app logic into MainAppContent
@@ -582,20 +584,20 @@ function MainAppContent() {
             style={styles.input}
             placeholder="Description"
             value={newExpense.description}
-            onChangeText={(text) => setNewExpense({ ...newExpense, description: text })}
+            onChangeText={(text: string) => setNewExpense({ ...newExpense, description: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Amount"
             keyboardType="numeric"
             value={newExpense.amount.toString()}
-            onChangeText={(text) => setNewExpense({ ...newExpense, amount: Number(text) })}
+            onChangeText={(text: string) => setNewExpense({ ...newExpense, amount: Number(text) })}
           />
           <TextInput
             style={styles.input}
             placeholder="Paid By"
             value={newExpense.paidBy}
-            onChangeText={(text) => setNewExpense({ ...newExpense, paidBy: text })}
+            onChangeText={(text: string) => setNewExpense({ ...newExpense, paidBy: text })}
           />
           <Text style={styles.label}>Split With:</Text>
           <View style={styles.selectContainer}>
@@ -645,8 +647,8 @@ function MainAppContent() {
         {/* Expenses List */}
         <FlatList
           data={getFilteredExpenses()}
-          keyExtractor={(item) => item.id?.toString() ?? Math.random().toString()}
-          renderItem={({ item }) => (
+          keyExtractor={(item: Expense) => item.id?.toString() ?? Math.random().toString()}
+          renderItem={({ item }: { item: Expense }) => (
             <View style={styles.expenseItem}>
               <View style={styles.expenseHeader}>
                 <Text style={styles.expenseDescription}>{item.description}</Text>
@@ -872,7 +874,7 @@ function MainAppContent() {
               style={styles.input}
               placeholder="Category Name"
               value={newCategoryName}
-              onChangeText={(text) => setNewCategoryName(text)}
+              onChangeText={(text: string) => setNewCategoryName(text)}
             />
             <View style={styles.modalButtons}>
               <TouchableOpacity
